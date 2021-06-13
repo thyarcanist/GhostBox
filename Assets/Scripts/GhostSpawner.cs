@@ -13,8 +13,8 @@ public class GhostSpawner : MonoBehaviour
     public float randDeploy;
     private Vector2 gameBoundaries;
 
-    public int nGhostNumbers;
     public int nGhostSpawnStopNum;
+    public int _ghostNumbers; // temp
 
     // Ghost Randomizer
     public GameObject[] ghostTypes;
@@ -23,6 +23,9 @@ public class GhostSpawner : MonoBehaviour
 
     public float deployFloat = 5.0f;
 
+    [Header("Reference to GameManager Script")]
+    public GameObject GameManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,19 +33,17 @@ public class GhostSpawner : MonoBehaviour
 
         // sets the boundaries of the game
         gameBoundaries = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
+        GameManager = GameObject.FindGameObjectWithTag("GameManager");
         StartCoroutine(ghostWaves());
     }
 
     public void Update()
     {
+        _ghostNumbers = GameManager.GetComponent<GameManager>().nGhostNumbers;
         Randomizers();
-
-        if (nGhostNumbers <= nGhostSpawnStopNum)
-        {
-            // stop spawning ghosts
-            bSpawnGhosts = false;
-        }
+        
     }
+
 
     private void Randomizers()
     {
@@ -64,7 +65,7 @@ public class GhostSpawner : MonoBehaviour
         while (bSpawnGhosts == true)
         {
             yield return new WaitForSeconds(deployFloat); // normally deployFloat
-            nGhostNumbers = nGhostNumbers += 1;
+            GameManager.GetComponent<GameManager>().nGhostNumbers = _ghostNumbers += 1;
             SpawnEntity();
         }
     }

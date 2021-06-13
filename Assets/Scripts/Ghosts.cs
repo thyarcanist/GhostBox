@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Ghosts : MonoBehaviour
 {
+    [Header("General Ghost Variables")]
     public GameObject Ghost;
     bool isClicked = false;
     bool hasTouched = false;
@@ -18,7 +19,7 @@ public class Ghosts : MonoBehaviour
     public bool didDie = false;
 
 
-
+    [Header("Ghost Count")]
     // Ghost Count
     public GameObject GameManager;
     public GameObject[] ghosts;
@@ -26,18 +27,38 @@ public class Ghosts : MonoBehaviour
     public float GhostTimer = 0f;
     public float resetTimer = 0f;
 
+    [Header("Removal of Magic Numbers to Adding")]
+    public int nFastGrab = 5;
+    public int nMidGrab = 3;
+    public int nSlowGrab = 1;
+
+    public int nTimeQuick = 2;
+    public int nTimeSlow = 4;
+
+    [Header("Range so thats its inbetween two")]
+    public int nTimeMidR1 = 2;
+    public int nTimeMidR2 = 3;
+
+    [Header("Delete if not clicked")]
+    public int nDeleteRange1 = 2;
+    public int nDeleteRange2 = 4;
+    private float _time;
+
+    private int randDeleteTime;
+
     GhostHealthValues.GHValues Health;
 
     // Biggest Issue to Solve:
     // When you click, its not checking to see if the image is click. If anything is clicked it will happen.
     // New Issue: When It's Clicked, it still has 25 Health
-    // New Issues: Counting is Off (ex. first click is 1, second is 3 and third is 7
+    // New Issues: Counting is Off (ex.  click is 1, second is 3 and third is 7
 
     // Start is called before the first frame update
     void Start()
     {
         GameManager = GameObject.FindGameObjectWithTag("GameManager");
         IdentifyGhost();
+        randDeleteTime = (int)Random.Range(nDeleteRange1, nDeleteRange2);
     }
 
  
@@ -47,37 +68,44 @@ public class Ghosts : MonoBehaviour
     {
         ghosts = GameObject.FindGameObjectsWithTag("Ghost");
 
-        CheckToCapture();
+    CheckToCapture();
         GhostTimer = GhostTimer + Time.deltaTime;
         PointGiver();
+        Delete();
+    }
 
+    private void Delete()
+    {
+        _time = randDeleteTime - Time.deltaTime;
+
+        if (_time <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     // < Less Than and > Greater Than
-    public void PointGiver()
+
+    public void PointGiver() // gives points for clicking in time
     {
-        if (Ghost.activeInHierarchy == false && GhostTimer <= 2)
+        if (Ghost.activeInHierarchy == false && GhostTimer <= nTimeQuick)
         {
             // Give Five Points
-            GameManager.GetComponent<GameManager>().AddPoints(5);
+            GameManager.GetComponent<GameManager>().AddPoints(nFastGrab);
             GhostTimer = resetTimer;
-            return;
         }
-        else if (Ghost.activeInHierarchy == false && GhostTimer <= 2 && GhostTimer > 3)
+        else if (Ghost.activeInHierarchy == false && GhostTimer <= nTimeMidR1 && GhostTimer > nTimeMidR2)
         {
             // Give Three Points
-            GameManager.GetComponent<GameManager>().AddPoints(3);
+            GameManager.GetComponent<GameManager>().AddPoints(nMidGrab);
             GhostTimer = resetTimer;
-            return;
         }
-        else if (Ghost.activeInHierarchy == false && GhostTimer >= 4)
+        else if (Ghost.activeInHierarchy == false && GhostTimer >= nTimeSlow)
         {
             // Give One Point
-            GameManager.GetComponent<GameManager>().AddPoints(1);
+            GameManager.GetComponent<GameManager>().AddPoints(nSlowGrab);
             GhostTimer = resetTimer;
-            return;
         }
-        return;
     }
 
     // Allows Player To Click On And Do It
@@ -91,8 +119,6 @@ public class Ghosts : MonoBehaviour
             {
                 BagIt();
             }
-
-            return;
         }
     }
 
@@ -103,8 +129,6 @@ public class Ghosts : MonoBehaviour
             BagIt();
             return;
         }
-
-        return;
     }
 
     public void GhostPresses()
@@ -131,7 +155,6 @@ public class Ghosts : MonoBehaviour
             GhostSprite.sprite = TouchedSprite;
             GhostHealth = GhostHealth - DamageBy;
             Debug.Log("You have clicked me.");
-            return;
     }
 
     public void BagIt()
@@ -141,7 +164,6 @@ public class Ghosts : MonoBehaviour
         didDie = true;
         StartCoroutine(DeleteSprite());
         Debug.Log("Ghost is destroyed.");
-        return;
 
     }
 
@@ -155,7 +177,6 @@ public class Ghosts : MonoBehaviour
     private void IdentifyGhost()
     {
         Ghost = GameObject.FindGameObjectWithTag("Ghost");
-        return;
     }
 }
 

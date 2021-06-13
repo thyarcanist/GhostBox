@@ -6,15 +6,23 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public int pointCounter = 0;
-    public int ghostCounter = 0;
+    [Header("Score and Ghost Captures")]
+    public int pointCounter;
+    public int ghostCounter;
+
     public Text counterText;
     public Text pointText;
 
     [Header("Ghost Measuring Bar")]
-    public int nMaxGhostCap; // MaxGhostCap for level progression
     // gets the percentage based on ghostCounter / nMaxGhostCap
     public double dGhostPer;
+    public int nGhostNumbers; // the first ghost that isn't spawned
+
+    private void Start()
+    {
+        // the first ghost that isn't spawned
+        nGhostNumbers = 1;
+    }
 
     public void CaptureGhost()
     {
@@ -28,7 +36,7 @@ public class GameManager : MonoBehaviour
 
     private void CaptureLevelPercentageAndShow()
     {
-        dGhostPer = ghostCounter / nMaxGhostCap;
+        dGhostPer = ghostCounter / nGhostNumbers;
     }
 
     public void GhostCaptureCount()
@@ -45,6 +53,7 @@ public class GameManager : MonoBehaviour
             GhostCaptureCount();
         }
 
+        CaptureLevelPercentageAndShow();
         //ComboChainCounter();
     }
 

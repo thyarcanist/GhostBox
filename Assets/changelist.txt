@@ -44,3 +44,11 @@ Player can earn a score for touching a ghost from: 1, 3 and 5.
 GhostCaptureCount in GameManager will not run unless it's in an activate GameScene (There is only a level 1)
 Fixed issue with ghosts spawning the wrong area, had reference set as a GameObject rather than a Transform. However, it's not spawning in the right size.
 Fixed issue where clicking anywhere -- I had a method still in update & just made the object a button.
+
+
+
+Substanial Changes created in June, 13th 2021 --- VER 0.6
+--------------------------------------------------------
+
+DONE:
+	- Game screen is oriented based on window size.

@@ -8,6 +8,8 @@ TagManager:
   - Ghost
   - GameManager
   - ProgText
+  - Box
+  - GhostManager
   layers:
   - Default
   - TransparentFX
