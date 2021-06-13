@@ -1,0 +1,46 @@
+Ghostbox was created during June 2020.
+Developed, Designed and Drawn by Datorien Anderson
+(Arcanist.Tech/ThyArcanist) @2020
+
+
+Substanial Changes created in Jan, 05th 2021 --- VER 0.5
+-----------------------------------------------
+Created a spawner that spits out new ghosts every x seconds.
+Added a points counter that adds everytime the player catches a ghost.
+Created a button the player can press to turn on and off music.
+Added the parentTransform, to allow another ghost to spawn.
+Refactoried some code but ultimately left some in.
+
+
+
+Bugs:
+	- An issue with playing the sound the triggers when the player catches a ghost.
+	- PRIORITY: Ghosts are spawning in the wrong area. (big and at the bottom left) FIXED: REASON BELOW
+	- PRIORITY: Clicking anywhere will capture the ghost.   FIXED: REASON BELOW
+	- Audio button was missing and wouldn't show up in the screen FIXED: There was a second canvas in the Scene Hierarchy
+	- Ghosts won't delete after SetActive due to Coroutine not running because its inactive
+
+
+TODO:
+	- Implement touch-based control.
+	- Close the box when a ghost is captured.
+	- Open the box when a ghost is on screen.
+	- Randomize which ghost appears from the screen,
+	{ghostTypes0 - 4}
+	- Create a QUIT Button
+	- Choose a random GhostHealth enum to go with the type (or have it preselected from randomized ghost)
+	- Earn a score, from +1, +3 and +5 from how fast a ghost is clicked on:
+			+1 - Clicked on in over 8 seconds
+			+3 - Clicked on in less than 5 but over 3 seconds
+			+5 - Clicked on in less than 3 seconds
+	- Add a cherry and chocolate drawn object, those give +10 points and are every "X" seconds to spawn.
+	- Add my own songs to play this too.
+	- Orient gamescreen based on window size
+
+
+Substanial Changes created in Jan, 06th 2021 --- VER 0.5
+--------------------------------------------------------
+Player can earn a score for touching a ghost from: 1, 3 and 5.
+GhostCaptureCount in GameManager will not run unless it's in an activate GameScene (There is only a level 1)
+Fixed issue with ghosts spawning the wrong area, had reference set as a GameObject rather than a Transform. However, it's not spawning in the right size.
+Fixed issue where clicking anywhere -- I had a method still in update & just made the object a button.
