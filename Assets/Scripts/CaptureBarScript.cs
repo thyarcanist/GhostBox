@@ -16,15 +16,11 @@ public class CaptureBarScript : MonoBehaviour
     {
         GameManager = GameObject.FindGameObjectWithTag("GameManager");
         ghostSlider = gameObject.GetComponent<Slider>();
-
-        SetCaptureMaxValue();
     }
 
     // Update is called once per frame
     void Update()
     {
-        SetCaptureMaxValue();
-
         // fills progress bar
         if (ghostSlider.value < ghostSlider.maxValue) { ghostSlider.value += fFillSpeed * Time.deltaTime; }
     }
@@ -33,14 +29,7 @@ public class CaptureBarScript : MonoBehaviour
     {
         // adds number of captures to ghostSlider
         // I know why, going to fix soon
-        nCaptures = ghostSlider.value + currentProgress;
+        ghostSlider.value = currentProgress;
     }
 
-    // Show Capture Percentage
-    private void SetCaptureMaxValue()
-    {
-        // set these values to correlate with ghosts
-        ghostSlider.maxValue = GameManager.GetComponent<GameManager>().nGhostNumbers;
-
-    }
 }
