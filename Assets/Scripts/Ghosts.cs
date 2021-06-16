@@ -40,8 +40,8 @@ public class Ghosts : MonoBehaviour
     public int nTimeMidR2 = 3;
 
     [Header("Delete if not clicked")]
-    public int nDeleteRange1 = 2;
-    public int nDeleteRange2 = 4;
+    public int nDeleteRange1 = 1;
+    public int nDeleteRange2 = 10;
     public float _time;
 
     public int randDeleteTime;
@@ -76,6 +76,8 @@ public class Ghosts : MonoBehaviour
         GhostTimer = GhostTimer + Time.deltaTime;
         // this is not going down, _time
         _time -= Time.deltaTime;
+
+        transform.Rotate(1, 0, 1);
 
         CheckToCapture();
         PointGiver();

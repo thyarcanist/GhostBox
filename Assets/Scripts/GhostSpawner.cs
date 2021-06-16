@@ -29,6 +29,7 @@ public class GhostSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // set deployTime as deployFloat
         deployTime = deployFloat;
 
         // sets the boundaries of the game
@@ -51,7 +52,10 @@ public class GhostSpawner : MonoBehaviour
         randDeploy = Mathf.Round(Random.Range(5f, 10f));
 
         // randomize the spawn time for ghosts after intial spawn
-        deployTime = Mathf.Round(Random.Range(1.5f, 5f));
+        deployTime = Mathf.Round(Random.Range(1f, 5f));
+
+        // randomize the float until another ghost spawns
+        deployFloat = deployTime;
 
         // randomizes the ghost
         randomGhost = Random.Range(0, ghostTypes.Length);
@@ -60,7 +64,7 @@ public class GhostSpawner : MonoBehaviour
     private void SpawnEntity()
     {
         GameObject ghostType01 = Instantiate(ghostTypes[randomGhost], parentGhost);
-        ghostType01.transform.SetParent(parentGhost.transform); // spawns it very large and in the wrong area
+        ghostType01.transform.SetParent(parentGhost.transform);
     }
 
     IEnumerator ghostWaves()

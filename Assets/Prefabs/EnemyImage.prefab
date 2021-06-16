@@ -93,9 +93,22 @@ MonoBehaviour:
   ReturnSprite: {fileID: 21300000, guid: 7ed0a18a6e0378e44b44a6ddbd6a7ee9, type: 3}
   GhostHealth: -101
   WaitToDelete: 3
+  didDie: 0
   GameManager: {fileID: 0}
+  ghosts: []
   GhostTimer: 0
   resetTimer: 0
+  nFastGrab: 5
+  nMidGrab: 3
+  nSlowGrab: 1
+  nTimeQuick: 2
+  nTimeSlow: 4
+  nTimeMidR1: 2
+  nTimeMidR2: 3
+  nDeleteRange1: 1
+  nDeleteRange2: 10
+  _time: 0
+  randDeleteTime: 0
 --- !u!58 &8785749538845498499
 CircleCollider2D:
   m_ObjectHideFlags: 0

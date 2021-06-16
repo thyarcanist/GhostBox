@@ -10,38 +10,66 @@ public class StoryShifter : MonoBehaviour
     // Need to get working
     public GameObject gameManager;
     public Text sceneText;
-    public readonly string[] scriptText01 = 
+
+    public readonly string[] scriptText01 =
         {
-        "One", 
-        "Two",
-        "Three",
-        "Four"
+        "All Ghosts Captured\n\n 'You got them all!",
+        "You have captured more than 75% of the ghosts\n\n Keep doing well!",
+        "75% of ghosts captured.\n\n 'Hey your pretty good'",
+        "50% of ghosts captued.\n\n",
+        "35% of ghosts captued.\n\n",
+        "No Ghosts Captured.\n\n What were you doin'?"
         };
 
     // Start is called before the first frame update
     void Start()
     {
         GetObjREF();
-        SwitchLines();
+        SwitchScript();
     }
 
-    public void SwitchLines()
-    {   // if SceneActive is Level_Story01 & ghost captures is 10 or more
-        if ( SceneManager.GetActiveScene().name == "Level_Story01" && gameManager.GetComponent<GameManager>().ghostCounter <= 10)
+    private void SwitchScript()
+    {
+        if (gameManager.GetComponent<GameManager>()._dGhostPer >= 1f)
         {
-            // sets scene text to the index 1 in the array
+            sceneText.text = scriptText01[0];
+            Debug.Log("All Ghosts Captured");
+            Debug.Log("Pass");
+        }
+        else if (gameManager.GetComponent<GameManager>()._dGhostPer >= 0.75f)
+        {
             sceneText.text = scriptText01[1];
+            Debug.Log("You have captued more than 75% of the ghosts.");
+            Debug.Log("Pass");
+        }
+        else if (gameManager.GetComponent<GameManager>()._dGhostPer <= 0.75f)
+        {
+            sceneText.text = scriptText01[2];
+            Debug.Log("75% of ghosts captured.");
+            Debug.Log("Pass");
+        }
+        else if (gameManager.GetComponent<GameManager>()._dGhostPer <= 0.5f)
+        {
+            sceneText.text = scriptText01[3];
+            Debug.Log("50% of ghosts captued.");
+            Debug.Log("Fail");
+        }
+        else if (gameManager.GetComponent<GameManager>()._dGhostPer <= 0.35f)
+        {
+            sceneText.text = scriptText01[4];
+            Debug.Log("35% of ghosts captued.");
+            Debug.Log("Fail");
+        }
+        else
+        {
+            sceneText.text = scriptText01[5];
+            Debug.Log("Ghost Percentage change");
+            Debug.Log("Error in SwitchScript");
         }
     }
 
     private void GetObjREF()
     {
         gameManager = GameObject.FindGameObjectWithTag("GameManager");
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        
     }
 }

@@ -24,6 +24,15 @@ public class GameManager : MonoBehaviour
     public GameObject CaptureBarUI;
     private string directoryImage = "CaptureBar";
 
+    // hold variables, for storyshifter script and then reset
+    public float _dGhostPer;
+    public int _nGhostsFound;
+    public int _ghostsCaptured;
+    public int _pointCounter;
+
+    public bool bAtLevelEnd = false; // timer reached zero
+    public bool bNextLevel = false; // to transition to next level
+
     private void Start()
     {
         // the first ghost that isn't spawned
@@ -53,12 +62,26 @@ public class GameManager : MonoBehaviour
         pointText.text = pointCounter.ToString();
     }
 
+    public void HoldValues()
+    {
+        // Holds Values for StoryShifter script
+
+        _dGhostPer = dGhostPer; // Percentage
+        _nGhostsFound = nGhostNumbers; // Ghost Numbers
+        _ghostsCaptured = ghostCounter; // ghost captured
+        _pointCounter = pointCounter; // Score
+    }
+
     public void Update()
     {
         if (SceneManager.GetActiveScene().name == "Level_01")
         {
             DontDestroyOnLoad(gameObject);
             GhostCaptureCount();
+        }
+        else if (SceneManager.GetActiveScene().name == "Level_Story01")
+        {
+            DontDestroyOnLoad(gameObject);
         }
         // updates totalGhostsCaptured to meet the number of ghosts
         totalGhostsCaptured = ghostCounter;

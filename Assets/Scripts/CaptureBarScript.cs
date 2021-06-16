@@ -8,8 +8,7 @@ public class CaptureBarScript : MonoBehaviour
     private Slider ghostSlider;
     public GameObject GameManager;
 
-    public float nCaptures = 0;
-    public float fFillSpeed = 0.5f;
+    public float fFillSpeed = 0.1f;
 
     // Start is called before the first frame update
     void Start()
@@ -27,8 +26,7 @@ public class CaptureBarScript : MonoBehaviour
 
     public void ShowProgress(float currentProgress)
     {
-        // adds number of captures to ghostSlider
-        // I know why, going to fix soon
+        // sets progress to value
         ghostSlider.value = currentProgress;
     }
 
