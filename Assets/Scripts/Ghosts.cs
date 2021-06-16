@@ -42,42 +42,48 @@ public class Ghosts : MonoBehaviour
     [Header("Delete if not clicked")]
     public int nDeleteRange1 = 2;
     public int nDeleteRange2 = 4;
-    private float _time;
+    public float _time;
 
-    private int randDeleteTime;
+    public int randDeleteTime;
 
     GhostHealthValues.GHValues Health;
 
     // Biggest Issue to Solve:
-    // When you click, its not checking to see if the image is click. If anything is clicked it will happen.
+    // When you click, its not checking to see if the image is click. If anything is clicked it will happen. | SOLVED
     // New Issue: When It's Clicked, it still has 25 Health
-    // New Issues: Counting is Off (ex.  click is 1, second is 3 and third is 7
+    // New Issues: Counting is Off (ex.  click is 1, second is 3 and third is 7 | SOLVED
 
     // Start is called before the first frame update
     void Start()
     {
         GameManager = GameObject.FindGameObjectWithTag("GameManager");
         IdentifyGhost();
-        randDeleteTime = (int)Random.Range(nDeleteRange1, nDeleteRange2);
     }
 
- 
+    // Time until Deletion of GameObject (Without Pressing)
+    void Awake()   
+    {
+        randDeleteTime = (int)Random.Range(nDeleteRange1, nDeleteRange2);
+        _time = randDeleteTime;
+    }
+
+
 
     // Update is called once per frame
     void Update()
     {
         ghosts = GameObject.FindGameObjectsWithTag("Ghost");
-
-    CheckToCapture();
         GhostTimer = GhostTimer + Time.deltaTime;
+        // this is not going down, _time
+        _time -= Time.deltaTime;
+
+        CheckToCapture();
         PointGiver();
         Delete();
     }
 
     private void Delete()
     {
-        _time = randDeleteTime - Time.deltaTime;
-
         if (_time <= 0)
         {
             Destroy(gameObject);
@@ -111,7 +117,7 @@ public class Ghosts : MonoBehaviour
     // Allows Player To Click On And Do It
     public void OnMouseDown()
     {
-        if (Input.GetMouseButtonDown(0) && this.gameObject.tag == "Ghost")
+        if (Input.GetMouseButtonDown(0) && gameObject.tag == "Ghost")
         {
             OnPress();
 
@@ -134,7 +140,7 @@ public class Ghosts : MonoBehaviour
     public void GhostPresses()
     {
 
-        if (Input.GetMouseButtonDown(0) && this.gameObject.tag == "Ghost")
+        if (Input.GetMouseButtonDown(0) && gameObject.tag == "Ghost")
         {
             OnPress();
 

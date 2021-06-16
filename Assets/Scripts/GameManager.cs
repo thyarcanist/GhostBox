@@ -10,18 +10,25 @@ public class GameManager : MonoBehaviour
     public int pointCounter;
     public int ghostCounter;
 
+    // stats to look at 
+    private int totalGhostsCaptured;
+    private float totalCapturePercentage;
+
     public Text counterText;
     public Text pointText;
 
     [Header("Ghost Measuring Bar")]
     // gets the percentage based on ghostCounter / nMaxGhostCap
-    public double dGhostPer;
+    public float dGhostPer;
     public int nGhostNumbers; // the first ghost that isn't spawned
+    public GameObject CaptureBarUI;
+    private string directoryImage = "CaptureBar";
 
     private void Start()
     {
         // the first ghost that isn't spawned
         nGhostNumbers = 1;
+        GetObjectReference();
     }
 
     public void CaptureGhost()
@@ -36,7 +43,8 @@ public class GameManager : MonoBehaviour
 
     private void CaptureLevelPercentageAndShow()
     {
-        dGhostPer = ghostCounter / nGhostNumbers;
+        dGhostPer =  (float)ghostCounter / (float)nGhostNumbers;
+        CaptureBarUI.GetComponent<CaptureBarScript>().ShowProgress(dGhostPer);
     }
 
     public void GhostCaptureCount()
@@ -49,9 +57,11 @@ public class GameManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "Level_01")
         {
-            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(gameObject);
             GhostCaptureCount();
         }
+        // updates totalGhostsCaptured to meet the number of ghosts
+        totalGhostsCaptured = ghostCounter;
 
         CaptureLevelPercentageAndShow();
         //ComboChainCounter();
@@ -62,6 +72,10 @@ public class GameManager : MonoBehaviour
        // Script Combo Here
     }
 
+    private void GetObjectReference()
+    {
+        CaptureBarUI = GameObject.FindGameObjectWithTag(directoryImage);
+    }
 
 
     // Buttons

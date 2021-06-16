@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\AudioFixer.cs" />
     <Compile Include="Assets\Scripts\BoxLogic.cs" />
+    <Compile Include="Assets\Scripts\CaptureBarScript.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\GhostHealthIndex.cs" />
     <Compile Include="Assets\Scripts\GhostHealthValues.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Assets\Scripts\GhostNoises.cs" />
     <Compile Include="Assets\Scripts\GhostSpawner.cs" />
     <Compile Include="Assets\Scripts\Ghosts.cs" />
+    <Compile Include="Assets\Scripts\LevelEndStats.cs" />
     <Compile Include="Assets\Scripts\PauseManager.cs" />
     <Compile Include="Assets\Scripts\StoryShifter.cs" />
     <Compile Include="Assets\Scripts\TimeCounter.cs" />

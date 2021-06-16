@@ -33,6 +33,7 @@ public class GhostSpawner : MonoBehaviour
 
         // sets the boundaries of the game
         gameBoundaries = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
+
         GameManager = GameObject.FindGameObjectWithTag("GameManager");
         StartCoroutine(ghostWaves());
     }
@@ -41,14 +42,16 @@ public class GhostSpawner : MonoBehaviour
     {
         _ghostNumbers = GameManager.GetComponent<GameManager>().nGhostNumbers;
         Randomizers();
-        
     }
 
 
     private void Randomizers()
     {
         // should randomize the spawn time with each update
-        randDeploy = Random.Range(5f, 10f);
+        randDeploy = Mathf.Round(Random.Range(5f, 10f));
+
+        // randomize the spawn time for ghosts after intial spawn
+        deployTime = Mathf.Round(Random.Range(1.5f, 5f));
 
         // randomizes the ghost
         randomGhost = Random.Range(0, ghostTypes.Length);

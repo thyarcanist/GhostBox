@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class BoxLogic : MonoBehaviour
 {
+    // BoxLogic isn't working correctly
+
     [Header("Box Logic Variables")]
     public Sprite BoxClosed;
     public Sprite BoxOpen;

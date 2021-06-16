@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class StoryShifter : MonoBehaviour
 {
     // Script that manages the story stuff;
+    // Need to get working
     public GameObject gameManager;
     public Text sceneText;
     public readonly string[] scriptText01 = 
