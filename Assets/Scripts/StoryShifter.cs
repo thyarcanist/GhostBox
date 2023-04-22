@@ -7,18 +7,17 @@ using UnityEngine.UI;
 public class StoryShifter : MonoBehaviour
 {
     // Script that manages the story stuff;
-    // Need to get working
     public GameObject gameManager;
     public Text sceneText;
 
     public readonly string[] scriptText01 =
         {
-        "All Ghosts Captured\n\n 'You got them all!",
-        "You have captured more than 75% of the ghosts\n\n Keep doing well!",
-        "75% of ghosts captured.\n\n 'Hey your pretty good'",
-        "50% of ghosts captued.\n\n",
-        "35% of ghosts captued.\n\n",
-        "No Ghosts Captured.\n\n What were you doin'?"
+            "All Ghosts Captured\n\n 'You got them all!",
+            "You have captured more than 75% of the ghosts\n\n Keep doing well!",
+            "75% of ghosts captured.\n\n 'Hey your pretty good'",
+            "50% of ghosts captued.\n\n",
+            "35% of ghosts captued.\n\n",
+            "No Ghosts Captured.\n\n What were you doin'?"
         };
 
     // Start is called before the first frame update
@@ -33,10 +32,10 @@ public class StoryShifter : MonoBehaviour
         if (gameManager.GetComponent<GameManager>()._dGhostPer >= 1f)
         {
             sceneText.text = scriptText01[0];
-            Debug.Log("All Ghosts Captured");
+            Debug.Log("All Ghosts Captured.");
             Debug.Log("Pass");
         }
-        else if (gameManager.GetComponent<GameManager>()._dGhostPer >= 0.75f)
+        else if (gameManager.GetComponent<GameManager>()._dGhostPer >= 0.76f)
         {
             sceneText.text = scriptText01[1];
             Debug.Log("You have captued more than 75% of the ghosts.");

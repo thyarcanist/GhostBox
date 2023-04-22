@@ -8,12 +8,12 @@ public class GhostNoises : MonoBehaviour
     public GameObject[] noisyGhosts;
 
     public AudioClip captureSound;
+    public bool TriggerSound = true;
 
     // Start is called before the first frame update
     void Start()
     {
         NoiseMachine = GetComponent<AudioSource>();
-
     }
 
     // Update is called once per frame
@@ -23,35 +23,25 @@ public class GhostNoises : MonoBehaviour
         GetSpookyNoises();
     }
 
+    public bool playSound = false;
     public void GetSpookyNoises()
     {
-        for (int i = 0; i < noisyGhosts.Length; i++)
+        if (TriggerSound && playSound)
         {
-            if (noisyGhosts[i].GetComponent<Ghosts>().didDie == true)
-            {
-                NoiseMachine.PlayOneShot(captureSound);
-                Destroy(gameObject);
-            }
+            NoiseMachine.PlayOneShot(captureSound);
+            StartCoroutine(ResetValues());
         }
     }
+
+    public void PlayCaptureSound()
+    {
+        StopCoroutine("ResetValues");
+        playSound = true;
+    }
+
+    IEnumerator ResetValues()
+    {
+        yield return new WaitForSeconds(captureSound.length + .3f);
+        playSound = false;
+    }
 }
-
-
-#region DEPRICATED
-
-//public void GetSpookyNoises()
-//{
-//    if (gameObject.tag == "Ghost")
-//    {
-//        for (int i = 0; i < noisyGhosts.Length; i++)
-//        {
-//            if (noisyGhosts[i].GetComponent<Ghosts>().isDead == true)
-//            {
-//                NoiseMachine.PlayOneShot(captureSound);
-//            }
-//        }
-//    }
-//}
-
-
-#endregion

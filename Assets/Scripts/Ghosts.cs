@@ -13,7 +13,9 @@ public class Ghosts : MonoBehaviour
     public Sprite TouchedSprite;
     public Sprite ReturnSprite;
 
-    public int GhostHealth = 25;
+
+
+    public int ghostHealth = 25;
     private int DamageBy = 25;
     public float WaitToDelete = 3f;
     public bool didDie = false;
@@ -22,22 +24,23 @@ public class Ghosts : MonoBehaviour
     [Header("Ghost Count")]
     // Ghost Count
     public GameObject GameManager;
+    public GameObject NoiseGen;
     public GameObject[] ghosts;
     // Score Count
     public float GhostTimer = 0f;
     public float resetTimer = 0f;
 
     [Header("Removal of Magic Numbers to Adding")]
-    public int nFastGrab = 5;
-    public int nMidGrab = 3;
-    public int nSlowGrab = 1;
+    public float nFastGrab = 6;
+    public float nMidGrab = 3;
+    public float nSlowGrab = 1;
 
-    public int nTimeQuick = 2;
-    public int nTimeSlow = 4;
+    public float nTimeQuick = 0.5f;
+    public float nTimeSlow = 1.7f;
 
     [Header("Range so thats its inbetween two")]
-    public int nTimeMidR1 = 2;
-    public int nTimeMidR2 = 3;
+    public float nTimeMidR1 = .6f;
+    public float nTimeMidR2 = 1.6f;
 
     [Header("Delete if not clicked")]
     public int nDeleteRange1 = 1;
@@ -48,16 +51,25 @@ public class Ghosts : MonoBehaviour
 
     GhostHealthValues.GHValues Health;
 
+    [Header("Wisp Attributes")]
+    public bool isTypeWisp = false;
+
     // Biggest Issue to Solve:
     // When you click, its not checking to see if the image is click. If anything is clicked it will happen. | SOLVED
     // New Issue: When It's Clicked, it still has 25 Health
     // New Issues: Counting is Off (ex.  click is 1, second is 3 and third is 7 | SOLVED
+    // New Issue: Continous points earned whenever, try new logic.
 
     // Start is called before the first frame update
     void Start()
     {
         GameManager = GameObject.FindGameObjectWithTag("GameManager");
+        NoiseGen = GameObject.FindGameObjectWithTag("NoiseManager");
         IdentifyGhost();
+        if (isTypeWisp)
+        {
+            ghostHealth = ghostHealth + 50;
+        }
     }
 
     // Time until Deletion of GameObject (Without Pressing)
@@ -65,6 +77,7 @@ public class Ghosts : MonoBehaviour
     {
         randDeleteTime = (int)Random.Range(nDeleteRange1, nDeleteRange2);
         _time = randDeleteTime;
+        Ghost = gameObject;
     }
 
 
@@ -73,14 +86,13 @@ public class Ghosts : MonoBehaviour
     void Update()
     {
         ghosts = GameObject.FindGameObjectsWithTag("Ghost");
-        GhostTimer = GhostTimer + Time.deltaTime;
+        GhostTimer += GhostTimer + Time.deltaTime;
         // this is not going down, _time
         _time -= Time.deltaTime;
 
-        transform.Rotate(1, 0, 1);
+        transform.Rotate(0, .2f, 1);
 
         CheckToCapture();
-        PointGiver();
         Delete();
     }
 
@@ -96,23 +108,33 @@ public class Ghosts : MonoBehaviour
 
     public void PointGiver() // gives points for clicking in time
     {
-        if (Ghost.activeInHierarchy == false && GhostTimer <= nTimeQuick)
+        if (!didDie)
         {
-            // Give Five Points
-            GameManager.GetComponent<GameManager>().AddPoints(nFastGrab);
-            GhostTimer = resetTimer;
-        }
-        else if (Ghost.activeInHierarchy == false && GhostTimer <= nTimeMidR1 && GhostTimer > nTimeMidR2)
-        {
-            // Give Three Points
-            GameManager.GetComponent<GameManager>().AddPoints(nMidGrab);
-            GhostTimer = resetTimer;
-        }
-        else if (Ghost.activeInHierarchy == false && GhostTimer >= nTimeSlow)
-        {
-            // Give One Point
-            GameManager.GetComponent<GameManager>().AddPoints(nSlowGrab);
-            GhostTimer = resetTimer;
+            Debug.Log("PointGiver function accessed");
+            if (GhostTimer <= nTimeQuick) // GhostTimer is less than or equal to nTimeQuick
+            {
+                // Give Five Points
+                GameManager.GetComponent<GameManager>().AddPoints((int)nFastGrab);
+                GhostTimer = resetTimer;
+                Debug.Log($"GhostTimer is at {GhostTimer}, \n _time is at {_time}");
+            }
+            else if (GhostTimer > nTimeMidR1 && GhostTimer > nTimeMidR2) // GhostTimer is less than nTimeMidR1 and GhostTimer is greater than nTimeMidR2
+            {
+                // Give Three Points
+                GameManager.GetComponent<GameManager>().AddPoints((int)nMidGrab);
+                GhostTimer = resetTimer;
+                Debug.Log(nMidGrab);
+                Debug.Log($"GhostTimer is at {GhostTimer}, \n _time is at {_time}");
+            }
+            else if (GhostTimer > nTimeSlow) // GhostTimer is greater than or equal to nTimeSlow
+            {
+                // Give One Point
+                GameManager.GetComponent<GameManager>().AddPoints((int)nSlowGrab);
+                GhostTimer = resetTimer;
+                Debug.Log(nSlowGrab);
+                Debug.Log($"GhostTimer is at {GhostTimer}, \n _time is at {_time}");
+            }
+            didDie = true;
         }
     }
 
@@ -123,7 +145,7 @@ public class Ghosts : MonoBehaviour
         {
             OnPress();
 
-            if (GhostHealth <= 0)
+            if (ghostHealth <= 0)
             {
                 BagIt();
             }
@@ -132,7 +154,7 @@ public class Ghosts : MonoBehaviour
 
     public void CheckToCapture()
     {
-        if (GhostHealth <= 0)
+        if (ghostHealth <= 0)
         {
             BagIt();
             return;
@@ -146,7 +168,7 @@ public class Ghosts : MonoBehaviour
         {
             OnPress();
 
-            if (GhostHealth <= 0)
+            if (ghostHealth <= 0)
             {
                 BagIt();
             }
@@ -159,14 +181,16 @@ public class Ghosts : MonoBehaviour
     // Allows It To Be Pressed
     public void OnPress()
     {
+            NoiseGen.GetComponent<GhostNoises>().PlayCaptureSound();
             hasTouched = true;
             GhostSprite.sprite = TouchedSprite;
-            GhostHealth = GhostHealth - DamageBy;
+            ghostHealth = ghostHealth - DamageBy;
             Debug.Log("You have clicked me.");
     }
 
     public void BagIt()
     {
+        PointGiver();
         GameManager.GetComponent<GameManager>().CaptureGhost();
         hasTouched = false;
         didDie = true;
@@ -187,7 +211,6 @@ public class Ghosts : MonoBehaviour
         Ghost = GameObject.FindGameObjectWithTag("Ghost");
     }
 }
-
 
 #region DEPRICATED
 
