@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
     {
         if (setToLandscape)
         {
-            Screen.orientation = ScreenOrientation.Landscape;
+            Screen.orientation = ScreenOrientation.LandscapeLeft;
         }
         else
         {
